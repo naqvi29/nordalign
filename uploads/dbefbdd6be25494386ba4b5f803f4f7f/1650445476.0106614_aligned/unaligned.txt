@@ -1,0 +1,4 @@
+ortografi_(CAM)_Camilla_ordliste_pre_11_4618_41_7394_A	Could not decode (beam too narrow)
+ortografi_(CAM)_Camilla_ordliste_pre_43_6649_69_0467_A	Could not decode (beam too narrow)
+ortografi_(CAM)_Camilla_ordliste_pre_69_6084_94_4608_A	Could not decode (beam too narrow)
+ortografi_(CAM)_Camilla_ordliste_pre_95_4353_102_9046_A	Could not decode (beam too narrow)

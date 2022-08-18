@@ -1,0 +1,83 @@
+{% extends "layout.html" %} {% block body %}
+<div>
+  <div class="home-wraper container">
+    <div class="home-bg"></div>
+    <h6 class="fw-normal text-uppercase fs-5">NordAlign</h6>
+    <h1 class="display-4 fw-bolder">Forced Alignment Service</h1>
+    <div class="row g-4 py-5">
+      <div class="col-md-4">
+        <div class="card home-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Forced Alignment</h5>
+            <h6 class="card-subtitle mb-2 text-muted">NordAlign</h6>
+            <p class="card-text">
+              <strong>NordAlign</strong> is an online tool for generating forced
+              alignment easily.
+            </p>
+            <a href="https://www.isca-speech.org/archive/interspeech_2017/mcauliffe17_interspeech.html" class="card-link">How does it work?</a>
+            <a href="#" class="card-link">Try it</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card home-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Summary</h5>
+            <p class="card-text">
+              Given an audio file containing speech, and the corresponding
+              transcript, computing a forced alignment is the process of
+              determining, for each fragment of the transcript, the time
+              interval (in the audio file) containing the spoken text of the
+              fragment.
+              <strong>NordAlign</strong> is an online tool for generating forced
+              alignment easily.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div
+          class="d-flex flex-column align-items-end justify-content-end w-100 h-100 fw-bold"
+        >
+          <p>Forced Alignment</p>
+          <p>Fast Processing</p>
+          <p>EU data policy</p>
+          <p>Flexible payment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="container">
+        <div class="row">
+
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-5 mx-md-auto pt-20">
+                <h1 class="text-primary">NordAlign</h1>
+                <h2>Forced Alignment Service</h2>
+
+
+
+                <div class="my-3">
+                    {% if current_user.is_authenticated %}
+                    <p class="w-100 text-center p-2 my-3 border border-success text-success rounded">You are logged in as {{ current_user.display_name() }}</p>
+                    {% else %}
+                    <a class="btn btn-primary my-3 w-100" href="{{ url_for('login') }}">Login</a>
+                    <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.</p>
+                    <hr class="my-3" />
+                    {% endif %}
+                    </p>
+
+                    <p>Given an audio file containing speech, and the corresponding transcript, computing a forced alignment is the process of determining, for each fragment of the transcript, the time interval (in the audio file) containing the spoken text of the fragment.
+                        <bold>NordAlign</bold> is an online tool for generating forced alignment easily.
+                       </p>
+
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+{% endblock %}

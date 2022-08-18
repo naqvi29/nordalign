@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<div>
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card border border-primary">
+          <div class="card-body p-lg-5">
+            <h1 class="display-3 text-center mb-1">NordAlign Payment</h1>
+            <p class="lead text-center text-muted">
+              Purchase your required number of word packages (600 words).
+            </p>
+            <div class="mb-3">
+              <label for="words" class="form-label">Number of word packages (600 words):</label>
+              <input type="text" id="words" name="words" class="form-control" />
+            </div>
+            <a href="#" id="buy_now_btn" class="btn btn-primary">
+              Buy word packages (600 words)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  {#
+  <script nonce="{{ csp_nonce() }}">
+    const checkout_public_key = '{{checkout_public_key}}';
+    const checkout_session_id = '{{checkout_session_id}}';
+  </script>
+  #}
+  <script src="{{ url_for('static', filename='script-ajax.js') }}"></script>
+</div>
+{% endblock %}

@@ -1,0 +1,2 @@
+ortografi_(MKA)_3CphWork_DanFA_0_4000_2_8990	Could not decode (beam too narrow)
+ortografi_(MKA)_3CphWork_DanFA_109_9000_113_4990	Could not decode (beam too narrow)

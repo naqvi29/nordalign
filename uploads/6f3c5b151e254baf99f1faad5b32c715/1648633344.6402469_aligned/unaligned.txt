@@ -1,0 +1,11 @@
+ortografi_(ACH)_3CphMiddle_DanFA_115_1000_115_1990	Too short to get features
+ortografi_(ACH)_3CphMiddle_DanFA_120_5000_121_5990	Could not decode (beam too narrow)
+ortografi_(ACH)_3CphMiddle_DanFA_156_2000_160_1990	Could not decode (beam too narrow)
+ortografi_(ACH)_3CphMiddle_DanFA_37_4000_39_9990	Could not decode (beam too narrow)
+ortografi_(ACH)_3CphMiddle_DanFA_5_0000_7_4990	Could not decode (beam too narrow)
+ortografi_(BWW)_2CphMiddle_DanFA_151_8000_153_6990	Could not decode (beam too narrow)
+ortografi_(BWW)_2CphMiddle_DanFA_61_1000_66_0990	Could not decode (beam too narrow)
+ortografi_(HCM)_3CphME_DanFA_122_3000_126_8990	Could not decode (beam too narrow)
+ortografi_(MKA)_3CphWork_DanFA_0_4000_2_8990	Could not decode (beam too narrow)
+ortografi_(MKA)_3CphWork_DanFA_109_9000_113_4990	Could not decode (beam too narrow)
+ortografi_(MMD)_2CphME_DanFA_181_8000_185_1990	Could not decode (beam too narrow)

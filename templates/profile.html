@@ -1,0 +1,118 @@
+{% extends "layout.html" %} {% block body %}
+<div>
+  <div class="container mt-5">
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img
+                src="{{ url_for('static', filename='img/avatar.png')}}"
+                alt="Admin"
+                class="rounded-circle"
+                width="100"
+              />
+              <div class="mt-3">
+                <h4>{{current_user.first_name + " " + current_user.last_name}}</h4>
+                <p class="mb-1 fw-light text-muted">Balance: {{ balance }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card shadow-sm mt-4">
+          <div class="card-body">
+            <h2 class="mb-3 card-title h4">Account management</h2>
+            <p class="card-text">Click the button below to permanently delete your account.</p>
+            <button class="btn btn-danger mb-2 first-delete" data-toggle="collapse" data-target=".delete-account">Delete account</button>
+            <p class="card-text delete-warning text-muted">Deleting your account is irreversible. All of your data, including notes and messages (sent and received) will be permanently deleted!</p>
+            <div class="delete-account collapse" aria-expanded="false">
+                <form class="delete-account-form" method="POST" action="{{ url_for('delete_account') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="second-delete btn btn-danger w-100"><i class="far fa-exclamation-triangle mr-3"></i>Click here to delete!<i class="far fa-exclamation-triangle ml-3"></i></button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <h1 class="h3 mb-3">Welcome {{current_user.first_name + " " + current_user.last_name}}</h1>
+
+        <ul class="list-group mb-4">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Name</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ ((current_user.title + " ") if current_user.title else "") + current_user.first_name + " " + current_user.last_name }}
+                {% if current_user.verified %}
+                <span class="text-primary mx-3">
+                    <a class="edit-name-button" href="#" title="Edit name button" data-toggle="collapse" data-target="#edit-name">Edit</a>
+                </span>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Email</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                <div>{{ current_user.email }}</div>
+                {% if current_user.verified %}
+                <span class="text-success">Verified</span>
+                {% else %}
+                <span class="text-danger">Not verified</span>
+                <form class="verify-form d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" </input>
+                    <a class="verify-button d-inline" href="" title="Send verification email ms-1">Send verification email</a>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Unique ID</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ current_user.id }}
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <h1 class="h3 mb-3">My Downloads</h1>
+        <ul class="list-group mb-4">
+          {% for note in notes %}
+          <li class="list-group-item">
+            <div class="d-flex align-items-start">
+              <div class="fw-bold me-1">{{ note.title}}</div>
+            </div>
+            <div class="mt-1">
+              {{ note.body }}
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">{{ note.date_string }}</span>
+              <form class="delete-note-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="note_id" value="{{ note.id }}">
+                <a href="/download?filepath={{ note.download_url }}" download="output.zip" class="btn btn-primary delete-note-button btn-sm rounded-pill">Download</a>
+              </form>
+            </div>
+          </li>
+          {% endfor %}
+
+          {% if notes|length == 0 %}
+          <li class="list-group-item">
+            You have no downloads
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

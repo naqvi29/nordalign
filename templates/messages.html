@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+<div>
+  <div class="container pt-5">
+    <div class="row gy-5">
+      <div class="col-md-6 offset-md-1">
+        <div class="card">
+          <div class="card-body">
+            <form action="{{ url_for('uploader') }}" method="POST" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="formFile" class="form-label">
+                  Upload the zip file containing the audio and the transcript
+                  files. Or, select the audio and transcript files from a
+                  folder.
+                </label>
+                <input class="form-control" type="file" id="formFile" name="file" multiple />
+                <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
+                <label for="formFile" class="form-label mt-2">
+                  Select the Language.
+                </label>
+                <select class="form-control" name="lang" id="lang">
+                  <option value="da_DK">
+                    Danish (da_DK)</option>
+                  <option value="no_NO">Norwegian Bokmål (no_NO)</option>
+                  <option value="sv_SE">Swedish (sv_SE)</option>
+                  <option value="n_GB">UK English (en_GB)</option>
+                  <option disabled="true"> Icelandic (is_IS) (possible future development)</option>
+                  <option disabled="true"> Faroese (fo_FO) (possible future development)</option>
+                  <option disabled="true"> Finnish (fi_FI) (possible future development)</option>
+                  <option disabled="true"> Greenlandic (kl_GL) (possible future development)</option>
+                  <option disabled="true"> Sami (se_NO) (possible future development)</option>
+                </select>
+                <p class="text-info">
+                  <small>{{ res }}</small>
+                </p>
+              </div>
+              <input value="Upload" type="submit" class="btn btn-primary" />
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>Balance: {{ balance }}</span>
+              <a href="{{ url_for('payment') }}" class="btn btn-sm text-primary">Add balance</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

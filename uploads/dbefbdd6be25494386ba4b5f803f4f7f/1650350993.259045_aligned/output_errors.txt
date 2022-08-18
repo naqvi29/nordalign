@@ -1,0 +1,10 @@
+The following exceptions were encountered during the ouput of the alignments to TextGrids:
+
+Camilla_ordliste_pre:
+Traceback (most recent call last):
+
+  File "aligner/textgrid.py", line 100, in ctm_to_textgrid
+
+KeyError: 'Camilla_ordliste_pre'
+
+
