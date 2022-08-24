@@ -4,11 +4,12 @@ import uuid
 
 # User class
 class User():
-    def __init__(self, title, first_name, last_name, email, id="", verified=False, balance = 0):
+    def __init__(self, title, first_name, last_name, org, email, id="", verified=False, balance = 0):
         # Main initialiser
         self.title = title if title != "none" else ""
         self.first_name = first_name
         self.last_name = last_name
+        self.org = org
         self.email = email
         self.id = uuid.uuid4().hex if not id else id
         self.verified = verified
@@ -16,7 +17,7 @@ class User():
     @classmethod
     def make_from_dict(cls, d):
         # Initialise User object from a dictionary
-        return cls(d['title'], d['first_name'], d['last_name'], d['email'], d['id'], d['verified'])
+        return cls(d['title'], d['first_name'], d['last_name'], d['org'], d['email'], d['id'], d['verified'])
 
     def dict(self):
         # Return dictionary representation of the object
@@ -25,6 +26,7 @@ class User():
             "title": self.title,
             "first_name": self.first_name,
             "last_name": self.last_name,
+            "org": self.org,
             "email": self.email,
             "verified": self.verified
         }

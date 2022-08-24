@@ -63,6 +63,10 @@ select.form-control {
   border-width: 0 !important;
 }
 
+#rulesText{
+  font-size:0.8rem;
+}
+
 @media (min-width: 768px) {
   .home-bg {
     width: 391px;

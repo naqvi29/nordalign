@@ -167,6 +167,7 @@ def register():
         first_name = request.form['first_name'].strip()
         last_name = request.form['last_name'].strip()
         password = request.form['pass'].strip()
+        org = request.form['org'].strip()
 
         users = mongo.db.users
         # Check if email address already exists
@@ -178,7 +179,7 @@ def register():
             # Hash password
             hashpass = bc.generate_password_hash(password).decode('utf-8')
             # Create user object (note password hash not stored in session)
-            new_user = User(title, first_name, last_name, email)
+            new_user = User(title, first_name, last_name, org, email)
             # Create dictionary data to save to database
             user_data_to_save = new_user.dict()
             user_data_to_save['password'] = hashpass
@@ -412,11 +413,11 @@ def uploader():
             else:
                 user_balance = r[0]['balance']
 
-            user_balance = 5000
+            # user_balance = 5000
 
             files = request.files.getlist("file")
             lang = request.form.get("lang")
-                    # verify
+            # verify
             verify = True
             single_zip = False
             verify_msg = "File upload successful."
@@ -430,7 +431,7 @@ def uploader():
                     verify = False
                     verify_msg = "Current file format is not supported. There should be equal number of wav and lab/txt files."
                 else:
-                        # single zip file
+                    # single zip file
                     print(files[0])
 
                     single_zip = True
@@ -509,6 +510,7 @@ def uploader():
             print(user_balance)
             print(per_word_price)
             print(tot_words)
+            # return str("groot")
             if user_balance < per_word_price * tot_words:
                 balance_failed_msg = f"Your balance is too low. For {tot_words} words you need at least {round(per_word_price * tot_words + 0.05, 2)} SEK in balance."
                 return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=balance_failed_msg, balance = user_balance)
@@ -519,11 +521,31 @@ def uploader():
                     
             Path(os.path.join(*ps)).mkdir(parents=True, exist_ok=True)
 
+            def get_file_size_in_bytes_2(file_path):
+                """ Get size of file at given path in bytes"""
+                # get statistics of the file
+                stat_info = os.stat(file_path)
+                # get size of file in bytes
+                size = stat_info.st_size
+                return size
+
             for file in files:
                 p = secure_filename(file.filename)
                 paths = ["uploads", str(current_user.id), tmap, p]
                 file.stream.seek(0)
                 file.save(os.path.join(*paths))
+
+                file_path = os.path.join(*paths)
+                size = get_file_size_in_bytes_2(file_path)
+                print('File size in bytes : ', size)
+                size_in_kb = size/1024
+                print('File size in kilobytes : ', size_in_kb)
+                if size_in_kb > 150000:                    
+                    ps = ["uploads", str(current_user.id), tmap]
+                    shutil.rmtree(os.path.join(*ps))
+                    verify = False
+                    verify_msg = f"File {p} is too large. Max Limit is 150mb"
+                    return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=verify_msg, balance = user_balance)                
 
                 #ps_temp = ps + ["file_upload_completed.dsap"]
                 #with open(os.path.join(*ps_temp),"a+") as f:
@@ -618,6 +640,11 @@ def thanks():
         app.db.updateById(db_id, {'balance': pb + num_count})
     return render_template('thanks.html')
 
+@app.route('/fetch-estimated-price', methods=['GET'])
+def fetch_estimated_price():
+    print("I LOVE YUUUUUUUUUUUUUUU")
+    return "Groot"
+
 @app.route('/stripe_webhook', methods=['POST'])
 def stripe_webhook():
     print('WEBHOOK CALLED')
@@ -688,6 +715,8 @@ def is_safe_url(target):
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and \
         ref_url.netloc == test_url.netloc
+
+
 
 # ENV = "prod"
 ENV = "dev"

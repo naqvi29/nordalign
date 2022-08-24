@@ -1,76 +1,64 @@
 {
    "data": [
       {
-         "user_id": "94dcad65ccbf437ca2ffe402e5e394af",
-         "task_path": "94dcad65ccbf437ca2ffe402e5e394af/1660297331.8417222",
-         "task_status": "completed",
-         "download_path": "zips/94dcad65ccbf437ca2ffe402e5e394af_1660297360.zip",
-         "download_title": "1660297331.8417222",
-         "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 1.46,
-         "lang": "da_DK",
-         "id": 231281554471168098
-      },
-      {
-         "user_id": "e0d193b234cf47259b88b4e1e1b2e18e",
-         "task_path": "e0d193b234cf47259b88b4e1e1b2e18e/1660298477.6553123",
-         "task_status": "completed",
-         "download_path": "zips/e0d193b234cf47259b88b4e1e1b2e18e_1660298504.zip",
-         "download_title": "1660298477.6553123",
-         "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 1.645,
-         "lang": "da_DK",
-         "id": 295027628869615991
-      },
-      {
-         "user_id": "e0d193b234cf47259b88b4e1e1b2e18e",
-         "task_path": "e0d193b234cf47259b88b4e1e1b2e18e/1660306547.1092818",
-         "task_status": "completed",
-         "download_path": "zips/e0d193b234cf47259b88b4e1e1b2e18e_1660306574.zip",
-         "download_title": "1660306547.1092818",
-         "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 1.645,
-         "lang": "da_DK",
-         "id": 258828426732128224
-      },
-      {
-         "user_id": "e0d193b234cf47259b88b4e1e1b2e18e",
-         "task_path": "e0d193b234cf47259b88b4e1e1b2e18e/1660307355.073267",
-         "task_status": "completed",
-         "download_path": "zips/e0d193b234cf47259b88b4e1e1b2e18e_1660307380.zip",
-         "download_title": "1660307355.073267",
-         "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 1.645,
-         "lang": "da_DK",
-         "id": 143965145089806071
-      },
-      {
-         "user_id": "e0d193b234cf47259b88b4e1e1b2e18e",
-         "task_path": "e0d193b234cf47259b88b4e1e1b2e18e/1660307393.0234807",
+         "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
+         "task_path": "1ababdbbd0fa48598a9d3c04e2cf1e49/1661351860.436308",
          "task_status": "uploaded",
          "download_path": "",
-         "download_title": "1660307393.0234807",
+         "download_title": "1661351860.436308",
          "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 1.23,
+         "download_date": "08/24/2022",
+         "cost": 0.055,
          "lang": "sv_SE",
-         "id": 323646540101813663
+         "id": 319364876902960660
       },
       {
-         "user_id": "e0d193b234cf47259b88b4e1e1b2e18e",
-         "task_path": "e0d193b234cf47259b88b4e1e1b2e18e/1660308310.582933",
+         "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
+         "task_path": "1ababdbbd0fa48598a9d3c04e2cf1e49/1661352491.9907181",
          "task_status": "uploaded",
          "download_path": "",
-         "download_title": "1660308310.582933",
+         "download_title": "1661352491.9907181",
          "download_counts": "1",
-         "download_date": "08/12/2022",
-         "cost": 0.64,
+         "download_date": "08/24/2022",
+         "cost": 0.055,
+         "lang": "sv_SE",
+         "id": 223086075660103240
+      },
+      {
+         "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
+         "task_path": "1ababdbbd0fa48598a9d3c04e2cf1e49/1661353002.377112",
+         "task_status": "uploaded",
+         "download_path": "",
+         "download_title": "1661353002.377112",
+         "download_counts": "3",
+         "download_date": "08/24/2022",
+         "cost": 0.165,
+         "lang": "n_GB",
+         "id": 334212647428035277
+      },
+      {
+         "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
+         "task_path": "1ababdbbd0fa48598a9d3c04e2cf1e49/1661356453.8527138",
+         "task_status": "uploaded",
+         "download_path": "",
+         "download_title": "1661356453.8527138",
+         "download_counts": "1",
+         "download_date": "08/24/2022",
+         "cost": 0.055,
          "lang": "no_NO",
-         "id": 276097483202269550
+         "id": 141867194432981709
+      },
+      {
+         "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
+         "task_path": "1ababdbbd0fa48598a9d3c04e2cf1e49/1661358808.3008323",
+         "task_status": "uploaded",
+         "download_path": "",
+         "download_title": "1661358808.3008323",
+         "download_counts": "1",
+         "download_date": "08/24/2022",
+         "cost": 0.055,
+         "lang": "no_NO",
+         "id": 253453871170769515
       }
    ]
 }
