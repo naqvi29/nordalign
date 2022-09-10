@@ -59,6 +59,11 @@
          "user_id": "1ababdbbd0fa48598a9d3c04e2cf1e49",
          "balance": 2000,
          "id": 230717021173934846
+      },
+      {
+         "user_id": "a5cd29dd3aae4868bf8a2955f99dd1eb",
+         "balance": 0,
+         "id": 210320929885733296
       }
    ]
 }

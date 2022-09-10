@@ -168,6 +168,8 @@ def register():
         last_name = request.form['last_name'].strip()
         password = request.form['pass'].strip()
         org = request.form['org'].strip()
+        industry = request.form['industry'].strip()
+
 
         users = mongo.db.users
         # Check if email address already exists
@@ -179,7 +181,7 @@ def register():
             # Hash password
             hashpass = bc.generate_password_hash(password).decode('utf-8')
             # Create user object (note password hash not stored in session)
-            new_user = User(title, first_name, last_name, org, email)
+            new_user = User(title, first_name, last_name, email)
             # Create dictionary data to save to database
             user_data_to_save = new_user.dict()
             user_data_to_save['password'] = hashpass
@@ -399,12 +401,28 @@ def delete_account():
     # return {"user_deleted": user_deleted, "notes_deleted": notes_deleted, "messages_deleted": messages_deleted}
 
 
+
+def get_file_size_in_bytes_2(file_path):
+    """ Get size of file at given path in bytes"""
+    # get statistics of the file
+    stat_info = os.stat(file_path)
+    # get size of file in bytes
+    size = stat_info.st_size
+    return size
+
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
-        try:
+        try:  
+            if 'files[]' not in request.files:
+                response = {"success":False,"msg":"No file part in the request"}
+                return response         
+            files = request.files.getlist("files[]")
+            lang = request.form.get("lang")
             # get balance
             id_ = current_user.id
+            print("user id_ is: ",id_)
             r = app.db.getBy({'user_id': id_})
                     
             if len(r) == 0:
@@ -415,8 +433,8 @@ def uploader():
 
             # user_balance = 5000
 
-            files = request.files.getlist("file")
-            lang = request.form.get("lang")
+            # files = request.files.getlist("file")
+            # lang = request.form.get("lang")
             # verify
             verify = True
             single_zip = False
@@ -430,6 +448,8 @@ def uploader():
                 if not p.endswith(".zip"):
                     verify = False
                     verify_msg = "Current file format is not supported. There should be equal number of wav and lab/txt files."
+                    response = {"success":False,"msg":verify_msg}
+                    return response
                 else:
                     # single zip file
                     print(files[0])
@@ -444,7 +464,11 @@ def uploader():
                         os.mkdir(tmp_dir)
                         zip.extractall(tmp_dir)
                     os.remove(tmp_zip)
-                    files = [ FileStorage(open(os.path.join(tmp_dir, i), "rb")) for i in os.listdir(tmp_dir)]
+                    print("seven")
+                    files = [ FileStorage(open(os.path.join(tmp_dir, i), "rb")) for i in os.listdir(tmp_dir) if os.path.isfile(i)]
+                    # files = [ FileStorage(open(os.path.join(tmp_dir, i), "rb")) for i in os.listdir(tmp_dir)]
+                    
+                    print("eight")
             
             num_texts = 0
             text_files = []
@@ -488,22 +512,32 @@ def uploader():
                 else:
                     verify = False
                     verify_msg = f"File {p} is not supported. There should be equal number of wav and lab/txt files."
+                    response = {"success":False,"msg":verify_msg}
+                    return response
                     break
 
             if sorted(text_files) != sorted(wav_files):
                 verify = False
                 verify_msg = "The wav filename(s) should exactly match with .txt/.lab label filename(s)."
+                response = {"success":False,"msg":verify_msg}
+                return response
 
             if num_texts != num_wavs:
                 verify = False
                 verify_msg = f"There should be equal number of wav and lab/txt files."
+                response = {"success":False,"msg":verify_msg}
+                return response
 
 
             if verify == False:
+                response = {"success":False,"msg":verify_msg}
+                return response
                 return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=verify_msg, balance = user_balance)
 
             if single_zip == True: # will add support later
                 shutil.rmtree(tmp_dir) # remove tmp extracted file
+                response = {"success":True,"msg":verify_msg,"single_zip":True}
+                return response
                 return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=verify_msg, balance = user_balance)
                 
                 
@@ -511,8 +545,11 @@ def uploader():
             print(per_word_price)
             print(tot_words)
             # return str("groot")
+            cost = round(per_word_price * tot_words + 0.05, 2)
             if user_balance < per_word_price * tot_words:
                 balance_failed_msg = f"Your balance is too low. For {tot_words} words you need at least {round(per_word_price * tot_words + 0.05, 2)} SEK in balance."
+                response = {"success":False,"msg":balance_failed_msg}                
+                return response
                 return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=balance_failed_msg, balance = user_balance)
 
 
@@ -520,15 +557,7 @@ def uploader():
             ps = ["uploads", str(current_user.id), tmap]
                     
             Path(os.path.join(*ps)).mkdir(parents=True, exist_ok=True)
-
-            def get_file_size_in_bytes_2(file_path):
-                """ Get size of file at given path in bytes"""
-                # get statistics of the file
-                stat_info = os.stat(file_path)
-                # get size of file in bytes
-                size = stat_info.st_size
-                return size
-
+            sizes = []
             for file in files:
                 p = secure_filename(file.filename)
                 paths = ["uploads", str(current_user.id), tmap, p]
@@ -537,14 +566,17 @@ def uploader():
 
                 file_path = os.path.join(*paths)
                 size = get_file_size_in_bytes_2(file_path)
-                print('File size in bytes : ', size)
+                sizes.append(size)
+                # print('File size in bytes : ', size)
                 size_in_kb = size/1024
-                print('File size in kilobytes : ', size_in_kb)
+                # print('File size in kilobytes : ', size_in_kb)
                 if size_in_kb > 150000:                    
                     ps = ["uploads", str(current_user.id), tmap]
                     shutil.rmtree(os.path.join(*ps))
                     verify = False
                     verify_msg = f"File {p} is too large. Max Limit is 150mb"
+                    response = {"success":False,"msg":verify_msg} 
+                    return response
                     return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=verify_msg, balance = user_balance)                
 
                 #ps_temp = ps + ["file_upload_completed.dsap"]
@@ -561,7 +593,23 @@ def uploader():
 
                 # file just successfully uploaded
                 # task_path = os.path.join(str(current_user.id),tmap)
-                
+
+            
+            total_size = sum(sizes)
+            print('Total size in bytes : ', total_size)
+            size_in_kb = total_size/1024
+            print('Total size in kilobytes : ', size_in_kb)
+            if size_in_kb > 150000:                    
+                ps = ["uploads", str(current_user.id), tmap]
+                shutil.rmtree(os.path.join(*ps))
+                verify = False
+                verify_msg = f"Files are too large. Max Limit is 150mb"
+                response = {"success":False,"msg":verify_msg} 
+                return response
+                return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=verify_msg, balance = user_balance)  
+            response = {"success":True,"msg":verify_msg,"tmap":tmap,"num_wavs":num_wavs,"per_word_price":per_word_price,"tot_words":tot_words,"lang":lang,"cost":cost} 
+            return response
+            # return "all good!!"
             task_path = str(current_user.id)+"/"+str(tmap)
             print("current_user.id is: ",current_user.id)
             print("task path is: ",task_path)
@@ -572,10 +620,46 @@ def uploader():
         except Exception as e:
             print("ISSUEESSS")
             print(e)
+            response = {"success":False,"msg":str(e)}
+            return response
             return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res="File upload failed!", balance = user_balance)
 
 
 
+@app.route("/confirm-upload",methods=['POST'])
+def confirm_uploads():
+    # try:
+    if request.method == "POST":
+        lang = request.form.get("lang")
+        tmap = request.form.get("tmap")
+        num_wavs = request.form.get("num_wavs")
+        per_word_price = float(request.form.get("per_word_price"))
+        tot_words = float(request.form.get("tot_words"))
+        print("lang: ",lang)
+        print("tmap: ",tmap)
+        print("num_wavs: ",num_wavs)
+        print("per_word_price: ",per_word_price)
+        print("tot_words: ",tot_words)
+        # get balance
+        id_ = current_user.id
+        r = app.db.getBy({'user_id': id_})          
+        user_balance = r[0]['balance']
+
+        task_path = str(current_user.id)+"/"+str(tmap)
+        cost = per_word_price * tot_words
+        print("current_user.id is: ",current_user.id)
+        print("task path is: ",task_path)
+        app.tasks_db.add({"user_id": str(current_user.id), "task_path": task_path, "task_status": "uploaded", "download_path": "", "download_title": tmap, "download_counts": str(num_wavs), "download_date": datetime.now().date().strftime('%m/%d/%Y'), "cost":cost,"lang":lang})
+        # print("failed here")
+        req_time = round(float(tot_words) * float(per_word_time), 2)
+        msg = "Files uploaded successfully. The processed textgrid files will appear in the downloads section after approximately "+str(req_time)+" secs"
+        resp = {"success":True,"msg":msg,"balance":user_balance}
+        return resp
+        return render_template('messages.html', users=[], inbox_messages=[], sent_messages=[], res=f"Files uploaded successfully. The processed textgrid files will appear in the downloads section after approximately {round(tot_words * per_word_time, 2)} secs", balance = user_balance)
+
+    # except Exception as e:
+    #     resp = {"success":False,"msg":str(e)}
+    #     return resp
 
 
 @app.route('/payment')
